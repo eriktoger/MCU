@@ -55,7 +55,7 @@ typedef struct{
  * @GPIO_PIN_MODES
  * GPIO pin possible modes
  */
-#define GPIO_MODE_INP 		0
+#define GPIO_MODE_IN 		0
 #define GPIO_MODE_OUT 		1
 #define GPIO_MODE_ALTFN 	2
 #define GPIO_MODE_ANALOG	3
@@ -104,7 +104,7 @@ void GPIO_DeInit(GPIO_RegDef_t *pGPIOx);
 /*
  * Data read and write
  */
-uint8_t GPIO_readFromInputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber);
+uint8_t GPIO_ReadFromInputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber);
 uint16_t GPIO_ReadFromInputPort(GPIO_RegDef_t *pGPIOx);
 void GPIO_WriteToOutputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber, uint8_t Value);
 void GPIO_WriteToOutputPort(GPIO_RegDef_t *pGPIOx, uint16_t Value);

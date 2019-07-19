@@ -210,7 +210,7 @@ void GPIO_DeInit(GPIO_RegDef_t *pGPIOx){
  *
  * @Note              -
  */
-uint8_t GPIO_readFromInputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber){
+uint8_t GPIO_ReadFromInputPin(GPIO_RegDef_t *pGPIOx, uint8_t PinNumber){
 
 	uint8_t value;
 
