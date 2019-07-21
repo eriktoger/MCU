@@ -16,33 +16,26 @@ void delay(void){
 int main(void){
 
 	GPIO_Handle_t GpioLed;
+	memset(&GpioLed,0,sizeof(GpioLed));
 
 	GpioLed.pGPIOx = GPIOD;
-
 	GpioLed.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_12;
-
 	GpioLed.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_OUT;
-
 	GpioLed.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_LOW;
-
 	GpioLed.GPIO_PinConfig.GPIO_PinOPType = GPIO_OP_TYPE_PP;
-
 	GpioLed.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
-
 	GPIO_PeriClockControl(GPIOD,ENABLE);
-
 	GPIO_Init(&GpioLed);
 	GPIO_WriteToOutputPin(GPIOD, GPIO_PIN_NO_12, GPIO_PIN_RESET);
 
 	GPIO_Handle_t GPIOBtn;
-
+	memset(&GPIOBtn,0,sizeof(GpioLed));
 	//Im using onboard button (and led)
 	GPIOBtn.pGPIOx = GPIOA;
 	GPIOBtn.GPIO_PinConfig.GPIO_PinNumber = GPIO_PIN_NO_0;
 	GPIOBtn.GPIO_PinConfig.GPIO_PinMode = GPIO_MODE_IT_FT;
 	GPIOBtn.GPIO_PinConfig.GPIO_PinSpeed = GPIO_SPEED_FAST;
 	GPIOBtn.GPIO_PinConfig.GPIO_PinPuPdControl = GPIO_NO_PUPD;
-
 
 	GPIO_PeriClockControl(GPIOA,ENABLE);
 	GPIO_Init(&GPIOBtn);
