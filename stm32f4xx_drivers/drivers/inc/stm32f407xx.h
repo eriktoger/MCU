@@ -9,6 +9,38 @@
 #define INC_STM32F407XX_H_
 
 #include <stdint.h>
+
+
+/**************** START: Processor Specific details ****************************************/
+
+/*
+ * ARM Cortex M4 Processor NVIC ISERx register Addresses
+ */
+
+#define NVIC_ISER0 		((volatile uint32_t*) 0xE000E100)
+#define NVIC_ISER1 		((volatile uint32_t*) 0xE000E104)
+#define NVIC_ISER2 		((volatile uint32_t*) 0xE000E108)
+#define NVIC_ISER3 		((volatile uint32_t*) 0xE000E10C)
+
+/*
+ * ARM Cortex M4 Processor NVIC ICERx register Addresses
+ */
+
+#define NVIC_ICER0 		((volatile uint32_t*) 0XE000E180)
+#define NVIC_ICER1 		((volatile uint32_t*) 0XE000E184)
+#define NVIC_ICER2 		((volatile uint32_t*) 0XE000E188)
+#define NVIC_ICER3 		((volatile uint32_t*) 0XE000E18C)
+
+/*
+ * ARM Cortex M4 Processor Priority Register Address Calculation
+ */
+#define NVIC_PR_BASE_ADDR ((volatile uint32_t *)0xE000E400)
+
+/*
+ * ARM Cortex M4 Processor number of priority bits implemented in Priority Register
+ */
+#define NO_PR_BITS_IMPLEMENTED 	4
+
 /*
  * base addresses of Flash and SRAM memories
  */
@@ -62,7 +94,7 @@
 #define UART5_BASEADDR			(APB1PERIPH_BASEADDR + 0x5000)
 
 
-#define EXT1_BASEADDR			(APB2PERIPH_BASEADDR + 0x3C00)
+#define EXTI_BASEADDR			(APB2PERIPH_BASEADDR + 0x3C00)
 #define SPI1_BASEADDR 			(APB2PERIPH_BASEADDR + 0x3000)
 #define USART1_BASEADDR			(APB2PERIPH_BASEADDR + 0x1000)
 #define USART6_BASEADDR			(APB2PERIPH_BASEADDR + 0x1400)
@@ -84,40 +116,67 @@ typedef struct{
 }GPIO_RegDef_t;
 
 
-typedef struct{
-	volatile uint32_t CR;
-	volatile uint32_t PLLCFGR;
-	volatile uint32_t CFGR;
-	volatile uint32_t CIR;
-	volatile uint32_t AHB1RSTR;
-	volatile uint32_t AHB2RSTR;
-	volatile uint32_t AHB3RSTR;
-	volatile uint32_t RESERVED0;
-	volatile uint32_t APB1RSTR;
-	volatile uint32_t APB2RSTR;
-	volatile uint32_t RESVERD1[2];
-	volatile uint32_t AHB1ENR;
-	volatile uint32_t AHB2ENR;
-	volatile uint32_t AHB3ENR;
-	volatile uint32_t RESERVED3;
-	volatile uint32_t AHB1LPENR;
-	volatile uint32_t AHB2LPENR;
-	volatile uint32_t AHB3LPENR;
-	volatile uint32_t RESERVED4;
-	volatile uint32_t APB1LPENR;
-	volatile uint32_t APB2LPENR;
-	volatile uint32_t RESERVED5[2];
-	volatile uint32_t BDCR;
-	volatile uint32_t CSR;
-	volatile uint32_t RESERVED6[2];
-	volatile uint32_t SSCGR;
-	volatile uint32_t PLLI2SCFGR;
-	volatile uint32_t PLLSAICFGR;
-	volatile uint32_t DCKCFGR;
-	volatile uint32_t CKGATENR;
-	volatile uint32_t DCKCFGR2;
+typedef struct
+{
+  volatile uint32_t CR;            /*!< TODO,     										Address offset: 0x00 */
+  volatile uint32_t PLLCFGR;       /*!< TODO,     										Address offset: 0x04 */
+  volatile uint32_t CFGR;          /*!< TODO,     										Address offset: 0x08 */
+  volatile uint32_t CIR;           /*!< TODO,     										Address offset: 0x0C */
+  volatile uint32_t AHB1RSTR;      /*!< TODO,     										Address offset: 0x10 */
+  volatile uint32_t AHB2RSTR;      /*!< TODO,     										Address offset: 0x14 */
+  volatile uint32_t AHB3RSTR;      /*!< TODO,     										Address offset: 0x18 */
+  uint32_t      RESERVED0;     /*!< Reserved, 0x1C                                                       */
+  volatile uint32_t APB1RSTR;      /*!< TODO,     										Address offset: 0x20 */
+  volatile uint32_t APB2RSTR;      /*!< TODO,     										Address offset: 0x24 */
+  uint32_t      RESERVED1[2];  /*!< Reserved, 0x28-0x2C                                                  */
+  volatile uint32_t AHB1ENR;       /*!< TODO,     										Address offset: 0x30 */
+  volatile uint32_t AHB2ENR;       /*!< TODO,     										Address offset: 0x34 */
+  volatile uint32_t AHB3ENR;       /*!< TODO,     										Address offset: 0x38 */
+  uint32_t      RESERVED2;     /*!< Reserved, 0x3C                                                       */
+  volatile uint32_t APB1ENR;       /*!< TODO,     										Address offset: 0x40 */
+  volatile uint32_t APB2ENR;       /*!< TODO,     										Address offset: 0x44 */
+  uint32_t      RESERVED3[2];  /*!< Reserved, 0x48-0x4C                                                  */
+  volatile uint32_t AHB1LPENR;     /*!< TODO,     										Address offset: 0x50 */
+  volatile uint32_t AHB2LPENR;     /*!< TODO,     										Address offset: 0x54 */
+  volatile uint32_t AHB3LPENR;     /*!< TODO,     										Address offset: 0x58 */
+  uint32_t      RESERVED4;     /*!< Reserved, 0x5C                                                       */
+  volatile uint32_t APB1LPENR;     /*!< TODO,     										Address offset: 0x60 */
+  volatile uint32_t APB2LPENR;     /*!< RTODO,     										Address offset: 0x64 */
+  uint32_t      RESERVED5[2];  /*!< Reserved, 0x68-0x6C                                                  */
+  volatile uint32_t BDCR;          /*!< TODO,     										Address offset: 0x70 */
+  volatile uint32_t CSR;           /*!< TODO,     										Address offset: 0x74 */
+  uint32_t      RESERVED6[2];  /*!< Reserved, 0x78-0x7C                                                  */
+  volatile uint32_t SSCGR;         /*!< TODO,     										Address offset: 0x80 */
+  volatile uint32_t PLLI2SCFGR;    /*!< TODO,     										Address offset: 0x84 */
+  volatile uint32_t PLLSAICFGR;    /*!< TODO,     										Address offset: 0x88 */
+  volatile uint32_t DCKCFGR;       /*!< TODO,     										Address offset: 0x8C */
+  volatile uint32_t CKGATENR;      /*!< TODO,     										Address offset: 0x90 */
+  volatile uint32_t DCKCFGR2;      /*!< TODO,     										Address offset: 0x94 */
 
-}RCC_RegDeg_t;
+} RCC_RegDef_t;
+
+/*
+ * peripheral register definition structure for
+ */
+typedef struct{
+	volatile uint32_t IMR;
+	volatile uint32_t EMR;
+	volatile uint32_t RTSR;
+	volatile uint32_t FTSR;
+	volatile uint32_t SWIER;
+	volatile uint32_t PR;
+
+}EXTI_RegDef_t;
+
+typedef struct{
+	volatile uint32_t MEMRMP;
+	volatile uint32_t PMC;
+	volatile uint32_t EXTICR[4];
+	uint32_t      RESERVED1[2]; //these are hidden, offset jumps from 0x14 to 0x20 ( 14,18,1C,20)
+	volatile uint32_t CMPCR;
+	// they have two extras reserved2 and CFGR, not sure why
+
+}SYSCFG_RegDef_t;
 
 /*
  * peripheral definitions ( Peripheral base addresses typecasted to xxx_RegDef_t)
@@ -133,8 +192,11 @@ typedef struct{
 #define GPIOH			((GPIO_RegDef_t *) GPIOH_BASEADDR )
 #define GPIOI			((GPIO_RegDef_t *) GPIOI_BASEADDR )
 
-#define RCC  			((RCC_RegDeg_t *) RCC_BASEADDR)
+#define RCC  			((RCC_RegDef_t *) RCC_BASEADDR)
 
+#define EXTI			((EXTI_RegDef_t *) EXTI_BASEADDR)
+
+#define SYSCFG			((SYSCFG_RegDef_t*) SYSCFG_BASEADDR)
 /*
  *  Clock Enable Macros for GPIOx peripherals
  */
@@ -181,7 +243,7 @@ typedef struct{
  *  Clock Enable Macros for SYSCFG peripherals
  */
 
-#define SYSCFG_PCLK_EN() (RCC->APB2ENR |= (1 <<14))
+#define SYSCFG_PCLK_EN() (RCC->APB2ENR |= (1 <<14) )
 
 /*
  *  Clock Disable Macros for GPIOx peripherals
@@ -232,6 +294,55 @@ typedef struct{
 #define GPIOG_REG_RESET()               do{ (RCC->AHB1RSTR |= (1 << 6)); (RCC->AHB1RSTR &= ~(1 << 6)); }while(0)
 #define GPIOH_REG_RESET()               do{ (RCC->AHB1RSTR |= (1 << 7)); (RCC->AHB1RSTR &= ~(1 << 7)); }while(0)
 #define GPIOI_REG_RESET()               do{ (RCC->AHB1RSTR |= (1 << 8)); (RCC->AHB1RSTR &= ~(1 << 8)); }while(0)
+
+
+#define GPIO_BASEADDR_TO_CODE(x)      ( (x == GPIOA)?0:\
+										(x == GPIOB)?1:\
+										(x == GPIOC)?2:\
+										(x == GPIOD)?3:\
+								        (x == GPIOE)?4:\
+								        (x == GPIOF)?5:\
+								        (x == GPIOG)?6:\
+								        (x == GPIOH)?7: \
+								        (x == GPIOI)?8:0 )
+
+/*
+ * IRQ(Interrupt Request) Numbers of STM32F407x MCU
+ * NOTE: update these macros with valid values according to your MCU
+ * TODO: You may complete this list for other peripherals
+ * found in Table 61. Vector table for STM32F405xx/07xx and STM32F415xx/17xx
+ */
+
+#define IRQ_NO_EXTI0 		6
+#define IRQ_NO_EXTI1 		7
+#define IRQ_NO_EXTI2 		8
+#define IRQ_NO_EXTI3 		9
+#define IRQ_NO_EXTI4 		10
+#define IRQ_NO_EXTI9_5 		23
+#define IRQ_NO_EXTI15_10 	40
+
+/*
+ * macros for all the possibles prority levels
+ */
+
+#define NVIC_IRQ_PRI0	0
+#define NVIC_IRQ_PRI1 	1
+#define NVIC_IRQ_PRI2	2
+#define NVIC_IRQ_PRI3 	3
+#define NVIC_IRQ_PRI4	4
+#define NVIC_IRQ_PRI5 	5
+#define NVIC_IRQ_PRI6	6
+#define NVIC_IRQ_PRI7	7
+#define NVIC_IRQ_PRI8	8
+#define NVIC_IRQ_PRI9	9
+#define NVIC_IRQ_PRI10	10
+#define NVIC_IRQ_PRI11	11
+#define NVIC_IRQ_PRI12	12
+#define NVIC_IRQ_PRI13	13
+#define NVIC_IRQ_PRI14	14
+#define NVIC_IRQ_PRI15	15
+
+
 //some generic macros
 
 #define ENABLE 1
